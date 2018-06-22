@@ -1,0 +1,2 @@
+# Blockchain-based-lucky-draw-service
+Lucky draw nowadays is not transparent enough. We need a verifiable process to generate number for lucky draw. [From wiki] By design, a blockchain is resistant to modification of the data. It is "an open, distributed ledger that can record transactions between two parties efficiently and in a verifiable and permanent way. Let's combine blockchain and lucky draw and make us winner for next party!
