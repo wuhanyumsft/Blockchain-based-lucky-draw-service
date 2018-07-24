@@ -8,6 +8,7 @@ using BlockchainLuckyDraw.Models;
 using System.Security.Cryptography;
 using System.Numerics;
 using System.Text;
+using System.Net.Http;
 
 namespace BlockchainLuckyDraw.Controllers
 {
@@ -55,21 +56,35 @@ namespace BlockchainLuckyDraw.Controllers
         public IActionResult Draw(int drawNumber)
         {
             LuckyCount = drawNumber;
-            int[] luckyNumbers = new int[LuckyCount + 1];
+            int[] luckyNumbers = new int[LuckyCount];
             string history = "";
             luckyNumbers[0] = seed.Next(N);
-            for (int i = 1; i <= LuckyCount; i++)
+            DateTime now = DateTime.Now;
+            for (int i = 0; i < LuckyCount; i++)
             {
-                luckyNumbers[i] = NextRandomNumber(luckyNumbers[i-1].ToString(), DateTime.UtcNow.Millisecond, ref history);
+                if (i == 0)
+                {
+                    luckyNumbers[0] = NextRandomNumber(GetBlockchainCreatedTimestamp(now).Millisecond.ToString(), now.Millisecond, ref history);
+                }
+                else
+                {
+                    luckyNumbers[i] = NextRandomNumber(luckyNumbers[i - 1].ToString(), now.Millisecond, ref history);
+                }
             }
 
-            luckyNumbers = luckyNumbers.Skip(1).OrderBy(n => n).ToArray();
+            luckyNumbers = luckyNumbers.OrderBy(n => n).ToArray();
             histories.Add(history);
             return View("Index", new LuckyNumberModel()
             {
                 LuckyNumbers = luckyNumbers,
                 Histories = histories
             });
+        }
+
+        private DateTime GetBlockchainCreatedTimestamp(DateTime now)
+        {
+            HttpClient client = new HttpClient();
+            return DateTime.UtcNow;
         }
 
         public IActionResult About()
