@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockchainLuckyDraw", "BlockchainLuckyDraw\BlockchainLuckyDraw.csproj", "{8C80EE2A-FADC-4B54-9369-D021A34914B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockchainLuckyDraw", "BlockchainLuckyDraw\BlockchainLuckyDraw.csproj", "{B82423E0-A1B2-493C-AA7D-6C79260C578B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8C80EE2A-FADC-4B54-9369-D021A34914B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C80EE2A-FADC-4B54-9369-D021A34914B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C80EE2A-FADC-4B54-9369-D021A34914B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C80EE2A-FADC-4B54-9369-D021A34914B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B82423E0-A1B2-493C-AA7D-6C79260C578B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B82423E0-A1B2-493C-AA7D-6C79260C578B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B82423E0-A1B2-493C-AA7D-6C79260C578B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B82423E0-A1B2-493C-AA7D-6C79260C578B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {BFADC326-EA04-4732-8BA8-A4C3F3FFC65E}
+		SolutionGuid = {1E93A91A-41E8-4C6A-8770-F2E51925EC83}
 	EndGlobalSection
 EndGlobal

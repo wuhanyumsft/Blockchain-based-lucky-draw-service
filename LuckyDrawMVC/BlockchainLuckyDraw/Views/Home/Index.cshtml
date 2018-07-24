@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Blockchain Lucky Draw";
+}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Blockchain Lucky Draw</h2>
+        <form method="post" action="~/Home/Draw">
+            <div class="form-group">
+                <label for="drawNumber">Number of lucky winners:</label>
+                <input name="drawNumber" class="form-control" value="@(Model != null && Model.LuckyNumbers != null ? Model.LuckyNumbers.Length : 5)" />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Draw</button>
+        </form>
+    </div>
+</div>
+<hr />
+@if (Model != null && Model.LuckyNumbers != null)
+{
+<div class="row">
+    <div class="col-md-8 col-md-offset-2" style="line-height: 60px">
+        @foreach (var luckyNumber in Model.LuckyNumbers)
+        {
+            <span class="badge" style="font-size: 36px">@luckyNumber</span><span>&nbsp;&nbsp;</span>
+        }
+    </div>
+    @if (Model.Histories != null)
+    {
+        <div class="col-md-2">
+            @foreach (var history in Model.Histories)
+            {
+                <div class="row">@history</div>
+                <hr />
+            }
+        </div>
+    }
+</div>
+}
