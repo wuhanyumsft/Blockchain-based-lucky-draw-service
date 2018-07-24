@@ -25,13 +25,16 @@ namespace BlockchainLuckyDraw.Controllers
             return View();
         }
 
-        private int NextRandomNumber()
+        private int NextRandomNumber(ref string history)
         {
             var newNumber = seed.Next(N);
             while (drawedNumbers.Contains(newNumber))
             {
+                history += $"-{newNumber}, ";
                 newNumber = seed.Next(N);
             }
+
+            history += $"+{newNumber}, ";
 
             drawedNumbers.Add(newNumber);
             return newNumber;
@@ -41,13 +44,14 @@ namespace BlockchainLuckyDraw.Controllers
         {
             LuckyCount = drawNumber;
             int[] luckyNumbers = new int[LuckyCount];
+            string history = "";
             for (int i = 0; i < LuckyCount; i++)
             {
-                luckyNumbers[i] = NextRandomNumber();
+                luckyNumbers[i] = NextRandomNumber(ref history);
             }
 
             luckyNumbers = luckyNumbers.OrderBy(n => n).ToArray();
-            histories.Add(string.Join(", ", luckyNumbers));
+            histories.Add(history);
             return View("Index", new LuckyNumberModel()
             {
                 LuckyNumbers = luckyNumbers,
