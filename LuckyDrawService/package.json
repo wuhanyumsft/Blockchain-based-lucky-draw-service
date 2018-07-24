@@ -1,0 +1,17 @@
+{
+  "name": "luckydraw",
+  "version": "1.0.0",
+  "description": "lucydraw@hackthon",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "web3": "^0.20.6",
+    "web3admin": "^0.4.4"
+  }
+}
