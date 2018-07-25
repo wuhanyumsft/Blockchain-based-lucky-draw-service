@@ -1,1 +1,1 @@
- geth --rpc --rpcport 30306 --rpcapi "eth,web3,admin,personal,miner" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --datadir data0 --networkid 1108 console
+geth --rpc --rpcport 30306 --rpcapi "eth,web3,admin,personal,miner" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --datadir data0 --networkid 1108 console
