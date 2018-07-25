@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Numerics;
 using System.Text;
 using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace BlockchainLuckyDraw.Controllers
 {
@@ -36,14 +37,15 @@ namespace BlockchainLuckyDraw.Controllers
             return (int)(BitConverter.ToUInt32(data) % N);
         }
 
-        private int NextRandomNumber(string lastInput, long time, ref string history)
+        private int NextRandomNumber(string lastInput, ref DateTime time, ref string history)
         {
-            var nextInput = md5.ComputeHash(Encoding.UTF8.GetBytes(lastInput + time.ToString()));
+            var nextInput = md5.ComputeHash(Encoding.UTF8.GetBytes(lastInput + time.Ticks.ToString()));
             var nextNumber = GetNumber(nextInput);
             while (drawedNumbers.Contains(nextNumber))
             {
+                time.AddTicks(10);
                 history += $"-{nextNumber}, ";
-                nextInput = md5.ComputeHash(Encoding.UTF8.GetBytes(nextInput + time.ToString()));
+                nextInput = md5.ComputeHash(Encoding.UTF8.GetBytes(nextInput + time.Ticks.ToString()));
                 nextNumber = GetNumber(nextInput);
             }
 
@@ -64,11 +66,11 @@ namespace BlockchainLuckyDraw.Controllers
             {
                 if (i == 0)
                 {
-                    luckyNumbers[0] = NextRandomNumber(GetBlockchainCreatedTimestamp(now).Millisecond.ToString(), now.Millisecond, ref history);
+                    luckyNumbers[0] = NextRandomNumber(GetBlockchainCreatedTimestamp(now).ToString(), ref now, ref history);
                 }
                 else
                 {
-                    luckyNumbers[i] = NextRandomNumber(luckyNumbers[i - 1].ToString(), now.Millisecond, ref history);
+                    luckyNumbers[i] = NextRandomNumber(luckyNumbers[i - 1].ToString(), ref now, ref history);
                 }
             }
 
@@ -81,10 +83,19 @@ namespace BlockchainLuckyDraw.Controllers
             });
         }
 
-        private DateTime GetBlockchainCreatedTimestamp(DateTime now)
+        private long GetBlockchainCreatedTimestamp(DateTime now)
         {
             HttpClient client = new HttpClient();
-            return DateTime.UtcNow;
+            var requestUri = "http://13.77.152.248";
+            var content = JsonConvert.SerializeObject(new BlockchainPayload()
+            {
+                timestamp = now.Ticks
+            });
+            var result = client.PostAsync(requestUri, new StringContent(content, Encoding.UTF8, "application/json"));
+            var resultStr = result.Result.Content.ReadAsStringAsync().Result;
+            var response = JsonConvert.DeserializeObject<BlockchainResponse>(resultStr);
+
+            return response.block_timestamp;
         }
 
         public IActionResult About()

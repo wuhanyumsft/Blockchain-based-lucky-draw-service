@@ -35,3 +35,8 @@ body {
         display: none;
     }
 }
+
+span.luckyNumber {
+    font-size: 36px;
+    background: #337ab7;
+}
