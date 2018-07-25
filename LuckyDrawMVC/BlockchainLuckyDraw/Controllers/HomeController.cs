@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Numerics;
 using System.Text;
 using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace BlockchainLuckyDraw.Controllers
 {
@@ -85,9 +86,13 @@ namespace BlockchainLuckyDraw.Controllers
         private DateTime GetBlockchainCreatedTimestamp(DateTime now)
         {
             HttpClient client = new HttpClient();
-            var requestUri = "";
-            // var result = client.PostAsync(requestUri new HttpContent(now.Millisecond.ToString())).Wait();
-            return DateTime.UtcNow;
+            var requestUri = "http://13.77.152.248";
+            var content = JsonConvert.SerializeObject(new BlockchainPayload()
+            {
+                timestamp = now.Millisecond.ToString()
+            });
+            var result = client.PostAsync(requestUri, new StringContent(content, Encoding.UTF8, "application/json"));
+            return DateTime.Parse(result.Result.Content.ReadAsStringAsync().Result);
         }
 
         public IActionResult About()
