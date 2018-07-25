@@ -36,14 +36,15 @@ namespace BlockchainLuckyDraw.Controllers
             return (int)(BitConverter.ToUInt32(data) % N);
         }
 
-        private int NextRandomNumber(string lastInput, long time, ref string history)
+        private int NextRandomNumber(string lastInput, ref DateTime time, ref string history)
         {
-            var nextInput = md5.ComputeHash(Encoding.UTF8.GetBytes(lastInput + time.ToString()));
+            var nextInput = md5.ComputeHash(Encoding.UTF8.GetBytes(lastInput + time.Millisecond.ToString()));
             var nextNumber = GetNumber(nextInput);
             while (drawedNumbers.Contains(nextNumber))
             {
+                time.AddMilliseconds(10);
                 history += $"-{nextNumber}, ";
-                nextInput = md5.ComputeHash(Encoding.UTF8.GetBytes(nextInput + time.ToString()));
+                nextInput = md5.ComputeHash(Encoding.UTF8.GetBytes(nextInput + time.Millisecond.ToString()));
                 nextNumber = GetNumber(nextInput);
             }
 
@@ -64,11 +65,11 @@ namespace BlockchainLuckyDraw.Controllers
             {
                 if (i == 0)
                 {
-                    luckyNumbers[0] = NextRandomNumber(GetBlockchainCreatedTimestamp(now).Millisecond.ToString(), now.Millisecond, ref history);
+                    luckyNumbers[0] = NextRandomNumber(GetBlockchainCreatedTimestamp(now).Millisecond.ToString(), ref now, ref history);
                 }
                 else
                 {
-                    luckyNumbers[i] = NextRandomNumber(luckyNumbers[i - 1].ToString(), now.Millisecond, ref history);
+                    luckyNumbers[i] = NextRandomNumber(luckyNumbers[i - 1].ToString(), ref now, ref history);
                 }
             }
 
@@ -84,6 +85,8 @@ namespace BlockchainLuckyDraw.Controllers
         private DateTime GetBlockchainCreatedTimestamp(DateTime now)
         {
             HttpClient client = new HttpClient();
+            var requestUri = "";
+            // var result = client.PostAsync(requestUri new HttpContent(now.Millisecond.ToString())).Wait();
             return DateTime.UtcNow;
         }
 
