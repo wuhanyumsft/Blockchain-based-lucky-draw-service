@@ -1,4 +1,11 @@
+const Web3 = require('web3');
+const web3Admin = require('web3admin');
+
 var config = require('./config');
+var web3 = new Web3(new Web3.providers.HttpProvider(config.ethHttpUrl));
+setTimeout(function() {
+    web3Admin.extend(web3);
+}, 1000);
 
 exports.get = function(req, res) {
     res.json('Lucydraw web api!');
@@ -12,7 +19,7 @@ exports.create = function(req, res) {
             from: config.fromUserAccount,
             to: config.toUserAccount,
             value: web3.toWei(config.etherEachTime, 'ether'),
-            data: web3.toHex(req.body.timestamp)
+            data: web3.toHex({timestamp: req.body.timestamp})
         };
         console.log("transaction");
         console.log(transaction);
@@ -31,11 +38,11 @@ exports.create = function(req, res) {
                     console.log(blockInfo);
                     res.json({ "block_timestamp": blockInfo.timestamp });
                 } else {
-                    res.json({ "error": err });
+                    res.json({ "error": err.message });
                 }
             });
         } catch (e) {
-            res.json({ "error": e });
+            res.json({ "error": e.message });
         }
     }
 
