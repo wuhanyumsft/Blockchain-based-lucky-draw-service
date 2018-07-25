@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace BlockchainLuckyDraw.Models
 {
-    public class BlockchainPayload
+    public class BlockchainResponse
     {
-        public long timestamp;
+        public long block_timestamp;
     }
 }
