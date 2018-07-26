@@ -66,7 +66,9 @@ namespace BlockchainLuckyDraw.Controllers
             {
                 if (i == 0)
                 {
-                    luckyNumbers[0] = NextRandomNumber(GetBlockchainCreatedTimestamp(now).ToString(), ref now, ref history);
+                    var blockTimeStamp = GetBlockchainCreatedTimestamp(now).ToString();
+                    history = $"(time={now.Ticks}, block_time={blockTimeStamp}) ";
+                    luckyNumbers[0] = NextRandomNumber(blockTimeStamp, ref now, ref history);
                 }
                 else
                 {
