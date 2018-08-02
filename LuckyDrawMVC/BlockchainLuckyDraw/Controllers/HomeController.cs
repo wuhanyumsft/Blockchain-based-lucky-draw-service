@@ -15,7 +15,7 @@ namespace BlockchainLuckyDraw.Controllers
 {
     public class HomeController : Controller
     {
-        private int N = 300;
+        private int N = 28;
 
         private static HashSet<int> drawedNumbers = new HashSet<int>();
 
@@ -34,7 +34,7 @@ namespace BlockchainLuckyDraw.Controllers
 
         private int GetNumber(byte[] data)
         {
-            return (int)(BitConverter.ToUInt32(data) % N);
+            return (int)(BitConverter.ToUInt32(data) % N + 1);
         }
 
         private int NextRandomNumber(string lastInput, ref DateTime time, ref string history)
@@ -43,7 +43,7 @@ namespace BlockchainLuckyDraw.Controllers
             var nextNumber = GetNumber(nextInput);
             while (drawedNumbers.Contains(nextNumber))
             {
-                time.AddTicks(10);
+                time = time.AddTicks(10);
                 history += $"-{nextNumber}, ";
                 nextInput = md5.ComputeHash(Encoding.UTF8.GetBytes(nextInput + time.Ticks.ToString()));
                 nextNumber = GetNumber(nextInput);
